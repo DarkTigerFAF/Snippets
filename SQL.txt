@@ -1,0 +1,65 @@
+Update :
+UPDATE table_name
+SET column = expression
+WHERE condition
+
+Delete:
+DELETE FROM table_name
+WHERE condition
+
+Select:
+SELECT columns
+FROM tables
+WHERE condition
+
+Constraints:
+CONSTRAINT contraint_name FOREIGN KEY(coulumn1, column2, ..., columnn)
+
+Insert:
+INSERT INTO table_name VALUES(...)
+
+Alter:
+ALTER TABLE table_name ADD CONSTRAINT constraint_name CHECK(...)
+ALTER TABLE table_name ADD COLUMN
+
+Conditions:
+like % : to compensate for a lost word.
+like _ : to compensate for a lost character.
+
+Join:
+SELECT columns
+FROM table1, table2 (Must have FK)
+WHERE table1.fk = table2.fk
+
+%found : Returns true if any row is affected.
+%rowcount : Returns how many rows are affected.
+
+Asc / Desc:
+SELECT coulms
+FROM tables
+WHERE predicates
+ORDER BY column ASC / DESC
+
+Cursor:
+declare
+...
+Select...
+variable cursor_name%rowtype;
+end;
+
+Procedure:
+create or replace procedure procedure_name
+is
+declaring...
+begin
+select or whatever...
+end;
+
+Function:
+create or replace function function_name (parameters) return datatype
+as
+declaring...
+begin
+select or wtf...
+return variable;
+end;

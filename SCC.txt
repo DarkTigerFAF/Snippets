@@ -1,0 +1,51 @@
+vector<int> bad(N), vis(N), cnt(N);
+vector<int> v[N], rev[N], comp[N], nodes;
+struct SCC{
+    int vis[N], rvis[N], indx = 0;
+    stack<int> st;
+
+    void dfs1(int node){
+        vis[node] = true;
+        for(auto &it : v[node]) if(!vis[it])
+            dfs1(it);
+        st.push(node);
+    }
+    void dfs2(int node){
+        vis[node] = true;
+        comp[indx].pb(node);
+        nodes[node] = indx;
+        for(auto &it : rev[node]) if(!rvis[it])
+            dfs2(it);
+    }
+
+    void reverse(){
+        nodes.resize(N);
+        memset(vis, false, sizeof vis);
+
+        for(int i = 0; i < N; i++)
+            for(auto &u : v[i])
+                rev[u].pb(i);
+
+        while(!st.empty()){
+            int node = st.top(); st.pop();
+            if(!vis[node]){
+                dfs2(node);
+                indx++;
+            }
+        }
+    }
+
+    void work(){
+        dfs1(1);
+        reverse();
+    }
+};
+
+void dfs(int node, int done, int par){
+    vis[node] = true;
+    done |= (int)comp[nodes[node]].size() > 1;
+    for(auto &it : v[node])
+        if(!vis[it])
+            dfs(it, done | bad[it], node);
+        else if(it != par) cnt[it]++;
+}

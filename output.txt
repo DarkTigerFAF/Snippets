@@ -1,0 +1,30 @@
+Expected value 3/10
+Binary Exponentation 5/10
+Modular Inverse 8/10
+Sieve 9/10
+Sieve upto 1e9 5/10
+Extended Euclid 0/10
+Combinatorics 7/10
+nCr Modulo M 10/10
+DFS and BFS 7/10
+0/1 BFS Don't know it
+SCC(Strongly Connected components) 3/10
+Rerooting Technique 0/10
+Prims's MST 2/10
+Krushkal's MST 7/10
+Dijkstra 7/10
+Cycle detection 10/10
+DSU 8/10
+Segment tree 7/10
+Segment tree with Lazy 7/10
+MO's algortihm 0/10
+Trie 2/10
+Sqrt Decomposition 0/10
+String hasing 5/10
+KMP / Prefix function / Z algorithm 0/10
+DP 5/10
+DP with bitmasks (6 - 7)/10
+Geometry 2/10
+Binary Search 7/10
+Two pointers 8/10
+Ternary Search 0/10

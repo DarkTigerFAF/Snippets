@@ -1,0 +1,13 @@
+1<<m -> 2^m
+Gray Code : x ^ x>>1
+Knights can attack each other in 2x3 / 3x2 board
+Square numbers have odd no. of factors
+(i + j) mod 3 (adjacent diagonals)
+When doing knapsack start from the biggest number and check if depth left is enough
+No. of divisors of number = p1^(a+1) * p2^(a+1) p(distinct prime factor)
+Unimodel permuation are permutation with 1 peak, to count them : 2^n-1
+Rules function seres nth term equals number of setbits in n ^ (n - 1)
+Comparator function:
+(a < b) increasing
+(a > b) decreasing
+Polygon Radius = s / (2 * sin(180 / n)) * cos(180 / n);

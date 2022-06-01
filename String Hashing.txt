@@ -1,0 +1,51 @@
+const int p1 = 31, p2 = 37;
+ll hash1[N], hash2[N], pow1[N], pow2[N];
+
+void pre(string &s) {
+    pow1[0] = pow2[0] = 1;
+    for(int i = 1; i < N; i++)
+        pow1[i] = (pow1[i - 1] * p1) % MOD,
+        pow2[i] = (pow2[i - 1] * p2) % MOD;
+    int n = (int)s.size();
+    for(int i = 0; i < n; i++)
+        hash1[i + 1] = (hash1[i] * p1 + s[i]) % MOD,
+        hash2[i + 1] = (hash2[i] * p2 + s[i]) % MOD;
+}
+
+pair<ll, ll> gethash(int l, int r){
+    return {((hash1[r + 1] - (hash1[l] * pow1[r - l + 1]) % MOD) + MOD) % MOD,
+            ((hash2[r + 1] - (hash2[l] * pow2[r - l + 1]) % MOD) + MOD) % MOD};
+}
+
+
+
+
+const int p1 = 31, p2 = 37;
+ll pow1[N], pow2[N];
+
+void pre() {
+    pow1[0] = pow2[0] = 1;
+    for(int i = 1; i < N; i++)
+        pow1[i] = (pow1[i - 1] * p1) % MOD,
+                pow2[i] = (pow2[i - 1] * p2) % MOD;
+
+}
+
+
+struct hashs{
+    string s;
+    ll hash1[N] = {0}, hash2[N] = {0};
+    void decode(){
+        int n = (int)s.size();
+        for(int i = 0; i < n; i++)
+            hash1[i + 1] = (hash1[i] * p1 + s[i]) % MOD,
+                    hash2[i + 1] = (hash2[i] * p2 + s[i]) % MOD;
+    }
+
+    pair<ll, ll> gethash(int l, int r){
+        return {((hash1[r + 1] - (hash1[l] * pow1[r - l + 1]) % MOD) + MOD) % MOD,
+                ((hash2[r + 1] - (hash2[l] * pow2[r - l + 1]) % MOD) + MOD) % MOD};
+    }
+};
+
+

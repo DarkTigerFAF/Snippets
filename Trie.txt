@@ -1,0 +1,52 @@
+ll fastpow(ll base, ll power, ll M) {
+    if (power == 1) return base;
+    ll val = fastpow(base, power / 2, M);
+    return (power % 2 == 0) ? (val * val) % M : (((val * val) % M) * base) % M;
+}
+
+int add(int a, int b) {
+    a = (a % MOD + MOD) % MOD;
+    b = (b % MOD + MOD) % MOD;
+    return (a + b) % MOD;
+}
+
+int mult(int a, int b) {
+    a = (a % MOD + MOD) % MOD;
+    b = (b % MOD + MOD) % MOD;
+    return (1ll * a * b) % MOD;
+}
+
+struct Node{
+    int cnt;
+    Node *child[26];
+};
+
+struct tri{
+    Node *root;
+
+    tri(){
+        root = new Node();
+    }
+
+    void insert(string &s){
+        Node *cur = root;
+        for(auto &u : s){
+            int idx = u - 'a';
+            if(cur -> child[idx] == NULL)
+                cur -> child[idx] = new Node();
+            cur = cur -> child[idx];
+            cur -> cnt++;
+        }
+    }
+
+    int search(string &s){
+        Node *cur = root;
+        for(auto &u : s){
+            int idx = u - 'a';
+            if(cur -> child[idx] == NULL)
+                return 0;
+            cur = cur -> child[idx];
+        }
+        return cur -> cnt;
+    }
+};

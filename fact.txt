@@ -1,0 +1,30 @@
+namespace factorial {
+#define MAX 200005
+ 
+    ll fastpow(ll base, ll power, ll M){
+        if (power == 0) return 1;
+        if (power == 1) return base;
+        ll val = fastpow(base, power / 2, M);
+        return (power % 2 == 0) ? (val * val) % M : (((val * val) % M) * base) % M;
+    }
+ 
+    vector<ll> f(MAX);
+    vector<ll> inv(MAX);
+ 
+    void init() {
+        f[0] = 1;
+        for (ll i = 1; i < MAX; i++) f[i] = (f[i - 1] * i) % MOD;
+        inv[MAX-1] = fastpow(f[MAX-1], MOD-2, MOD);
+        for(ll i=MAX-2;i>=0;i--) inv[i] = (inv[i+1]*(i+1)) % MOD;
+ 
+        for(ll i=0;i<MAX;i++) assert(inv[i]==fastpow(f[i],MOD-2,MOD));
+    }
+ 
+    ll ncr(int n, int r) {
+        if (r > n || r < 0) return 0;
+        ll ans = f[n];
+        ans = (((ans * inv[r]) % MOD * inv[n - r]) % MOD) % MOD;
+        return ans;
+    }
+ 
+}using namespace factorial;

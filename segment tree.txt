@@ -1,0 +1,81 @@
+//typedef ll item;
+struct item{
+    int mnm, mxm;
+};
+struct segtree{
+    int size;
+    vector<item> seg;
+    vector<int> op;
+    item NEUTRAL;
+    void init(int n){
+        size = 1;
+        while(size < n) size *= 2;
+        seg.resize(size * 2, {INT_MAX, INT_MIN});
+        op.resize(size * 2);
+    }
+
+    void apply(int &a, int b){
+        a += b;
+    }
+    void apply(item &a, int b){
+        a = {a.mnm + b, a.mxm + b};
+    }
+    item calc(item a, item b){
+        return {min(a.mnm, b.mnm), max(a.mxm, b.mxm)};
+    }
+
+    void propagate(int lx, int rx, int x){
+        if(rx - lx == 1 || !op[x])
+            return;
+        apply(seg[2 * x + 1], op[x]);
+        apply(op[2 * x + 1], op[x]);
+        apply(op[2 * x + 2], op[x]);
+        apply(seg[2 * x + 2], op[x]);
+        op[x] = 0;
+    }
+    void build(vector<int> &arr, int x, int lx, int rx){
+        propagate(lx, rx, x);
+        if(rx - lx == 1){
+            if(lx < arr.size())
+                seg[x] = {arr[lx], arr[lx]};
+            return;
+        }
+        int m = (lx + rx) / 2;
+        build(arr, 2 * x + 1, lx, m);
+        build(arr, 2 * x + 2, m, rx);
+        seg[x] = calc(seg[2 * x + 1], seg[2 * x + 2]);
+    }
+    void build(vector<int> &arr){
+        build(arr, 0, 0, size);
+    }
+
+    void add(int l, int r, int v, int x, int lx, int rx){
+        propagate(lx, rx, x);
+        if(lx >= r || l >= rx) return;
+        if(lx >= l && rx <= r){
+            apply(seg[x], v);
+            apply(op[x], v);
+            return;
+        }
+        int m = (lx + rx) / 2;
+        add(l, r, v, 2 * x + 1, lx, m);
+        add(l, r, v, 2 * x + 2, m, rx);
+        seg[x] = calc(seg[2 * x + 1], seg[2 * x + 2]);
+    }
+    void add(int l, int r, int v){
+        add(l, r, v, 0, 0, size);
+    }
+    
+    item query(int l, int r, int x, int lx, int rx){
+        propagate(lx, rx, x);
+        if(lx >= r || l >= rx) return NEUTRAL;
+        if(lx >= l && rx <= r) return seg[x];
+        int m = (lx + rx) / 2;
+        auto a = query(l, r, 2 * x + 1, lx, m);
+        auto b = (l, r, 2 * x + 2, m, rx);
+        return calc(a, b);
+    }
+    item query(int l, int r){
+        return query(l, r, 0, 0, size);
+    }
+};

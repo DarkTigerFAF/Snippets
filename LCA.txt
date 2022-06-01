@@ -1,0 +1,32 @@
+int LOG = 20;
+int depth[N], vis[N], up[N][20];
+vector<int> v[N];
+
+void dfs(int node){
+    for(auto u : v[node]){
+        depth[u] = depth[node] + 1;
+        up[u][0] = node;
+        for(int i = 1; i < LOG; i++)
+            up[u][i] = up[up[u][i - 1]][i - 1];
+        dfs(u);
+    }
+}
+
+int getLCA(int a, int b){
+    if(depth[a] < depth[b])
+        swap(a, b);
+
+
+    int k = depth[a] - depth[b];
+    for(int i = LOG - 1; i >= 0; i--)
+        if(k & (1 << i))
+            a = up[a][i];
+
+    if(a == b) return a;
+    
+    for(int i = LOG - 1; i >= 0; i--)
+        if(up[a][i] != up[b][i])
+            a = up[a][i], b = up[b][i];
+
+    return up[a][0];
+}
