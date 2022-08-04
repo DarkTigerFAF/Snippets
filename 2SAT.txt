@@ -1,0 +1,60 @@
+vector<int> v[N], rev[N];
+int vis[N];
+vector<int> order;
+
+int comp[N], idx = 1;;
+
+void dfs1(int node){
+    if(vis[node]) return;
+    vis[node] = true;
+    for(auto u : v[node])
+            dfs1(u);
+    order.pb(node);
+}
+
+ void dfs2(int node){
+    if(vis[node]) return;
+    vis[node] = true;
+    comp[node] = idx;
+    for(auto u : rev[node])
+            dfs2(u);
+ }
+
+
+int main(){
+    debugMode();
+    int n, m; cin >> n >> m;
+    for(int i = 0; i < n; i++){
+        int a, b; cin >> a >> b;
+        if(a < 0) a = 2 * m - abs(a) + 1;
+        if(b < 0) b = 2 * m - abs(b) + 1;
+        v[2 * m - a + 1].pb(b), v[2 * m - b + 1].pb(a);
+        rev[a].pb(2 * m - b + 1), rev[b].pb(2 * m - a + 1);
+    }
+
+    for(int i = 1; i <= 2 * m; i++)
+        if(!vis[i])
+            dfs1(i);
+    reverse(all(order));
+
+    memset(vis, false, sizeof vis);
+    for(auto u : order){
+        if(!vis[u]){
+            dfs2(u);
+            idx++;
+        }
+    }
+
+    vector<int> ans(m + 1);
+    for(int i = 1; i <= m; i++){
+        if(comp[i] == comp[2 * m - i + 1]){
+            cout << "-1\n";
+            return 0;
+        }
+        ans[i] = (comp[i] > comp[2 * m - i + 1]);
+    }
+
+    for(int i = 1; i <= m; i++)
+        cout << (ans[i] ? "1 " : "0 ");
+    return 0;
+}
