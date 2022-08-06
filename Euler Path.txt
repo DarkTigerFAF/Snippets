@@ -1,0 +1,54 @@
+set<int> v[N];
+vector<int> order;
+int vis[N], degree[N];
+
+void check(int node){
+    vis[node] = true;
+    for(auto u : v[node])
+        if(!vis[u])
+            check(u);
+}
+
+void dfs(int node){
+    while(degree[node]){
+        int u = *v[node].begin();
+        v[node].erase(u);
+        v[u].erase(node);
+        degree[u]--, degree[node]--;
+        dfs(u);
+    }
+    order.pb(node);
+}
+
+int main(){
+    debugMode();
+    int n, m; cin >> n >> m;
+    for(int i = 0; i < m; i++){
+        int a, b; cin >> a >> b;
+        v[a].insert(b);
+        v[b].insert(a);
+        degree[a]++, degree[b]++;
+    }
+    
+    bool bad = false;
+    for(int i = 1; i <= n; i++)
+        bad |= (int)v[i].size() & 1;
+
+    check(1);
+    for(int i = 1; i <= n; i++)
+        if(!vis[i] && degree[i] != 0)
+            bad = true;
+
+    if(bad){
+        cout << "IMPOSSIBLE\n";
+        return 0;
+    }
+
+    dfs(1);
+
+    reverse(all(order));
+
+    for(auto u : order) cout << u << ' ';
+
+    return 0;
+}
