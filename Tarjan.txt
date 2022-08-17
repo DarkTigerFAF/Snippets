@@ -1,0 +1,27 @@
+stack<int> st;
+int din[N], low[N], timer;
+bool inStack[N];
+
+void dfs(int node){
+    din[node] = low[node] = ++timer;
+    st.push(node);
+    inStack[node] = true;
+
+    for(auto u : v[node]){
+        if(din[u] == 0){
+            dfs(u);
+            low[node] = min(low[node], low[u]);
+        }
+        else if(inStack[u])
+            low[node] = min(low[node], din[u]);
+    }
+
+    if(low[node] == din[node]){
+        while(st.top() != node){
+            inStack[st.top()] = false;
+            st.pop();
+        }
+        inStack[node] = false;
+        st.pop();
+    }
+}
