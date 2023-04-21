@@ -1,0 +1,29 @@
+int vis[N], sz[N], up[N];
+vector<int> v[N];
+map<int, int> dist[N];
+int dfsSize(int node, int par){
+    sz[node] = 1;
+    for(auto u : v[node]){
+        if(vis[u] || u == par) continue;
+        sz[node] += dfsSize(u, node);
+    }
+    return sz[node];
+}
+
+int dfsCentroid(int node, int par, int n){
+    for(auto u : v[node]){
+        if(vis[u] || u == par) continue;
+        if(sz[u] > n / 2)
+            return dfsCentroid(u, node, n);
+    }
+    return node;
+}
+
+void dfs(int node, int par, int depth, int centroid){
+    dist[centroid][node] = depth;
+    for(auto u : v[node]){
+        if(u == par || vis[u])
+            continue;
+        dfs(u, node, depth + 1, centroid);
+    }
+}
